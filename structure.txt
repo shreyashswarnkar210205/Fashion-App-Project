@@ -1,0 +1,45 @@
+.
+├── fashion_project
+│   ├── db.sqlite3
+│   ├── fashion_app
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── migrations
+│   │   ├── models.py
+│   │   ├── tests.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   ├── fashion_project
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   ├── asgi.py
+│   │   ├── settings.py
+│   │   ├── static.py
+│   │   ├── urls.py
+│   │   └── wsgi.py
+│   ├── manage.py
+│   ├── media
+│   │   └── products
+│   ├── products
+│   │   ├── download_2.jpg
+│   │   ├── WhatsApp_Image_2026-03-29_at_5_H1fxTQj.03.55_PM.jpeg
+│   │   ├── WhatsApp_Image_2026-03-29_at_5_QOUDriu.03.55_PM.jpeg
+│   │   └── WhatsApp_Image_2026-03-29_at_5.03.55_PM.jpeg
+│   ├── templates
+│   │   ├── cart.html
+│   │   ├── category.html
+│   │   ├── checkout.html
+│   │   ├── home.html
+│   │   ├── product_detail.html
+│   │   └── wishlist.html
+│   └── venv
+│       ├── Include
+│       ├── Lib
+│       ├── pyvenv.cfg
+│       └── Scripts
+├── main.py
+└── structure.txt
+
+15 directories, 28 files
