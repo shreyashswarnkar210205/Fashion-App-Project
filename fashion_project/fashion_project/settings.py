@@ -1,5 +1,9 @@
 
 from pathlib import Path
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -8,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY
 SECRET_KEY = 'django-insecure-(c9il3xti2g$&8vo!bi9wpm&k8v-)srzrf+1q5svzyc@47!1z!'
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['kstylecloset-1.onrender.com', 'localhost', '127.0.0.1']
 
 
 # APPLICATIONS
@@ -19,6 +23,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary',
+    'cloudinary_storage',
 
     # ✅ YOUR APP (IMPORTANT)
     'fashion_app',
@@ -62,11 +68,10 @@ TEMPLATES = [
 
 
 # DATABASE
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.parse('postgresql://kstyle_db_user:wmz3m4brg56DTGA3t6hbzSIcaneTJTOc@dpg-d7cg8u99rddc739n80e0-a/kstyle_db')
 }
 
 
@@ -106,5 +111,14 @@ STATICFILES_DIRS = [
 # DEFAULT PRIMARY KEY
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+
+
+
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv("CLOUD_NAME"),
+    'API_KEY': os.getenv("API_KEY"),
+    'API_SECRET': os.getenv("API_SECRET"),
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
