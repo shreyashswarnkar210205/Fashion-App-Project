@@ -1,21 +1,31 @@
-
 from pathlib import Path
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 import os
+import dj_database_url
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'
+# Build paths
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# SECURITY
-SECRET_KEY = 'django-insecure-(c9il3xti2g$&8vo!bi9wpm&k8v-)srzrf+1q5svzyc@47!1z!'
-DEBUG = True
-ALLOWED_HOSTS = ['kstylecloset-1.onrender.com', 'localhost', '127.0.0.1']
+# ==============================
+# 🔐 SECURITY
+# ==============================
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-temp-key')
+
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+
+ALLOWED_HOSTS = [
+    'kstylecloset-1.onrender.com',
+    'localhost',
+    '127.0.0.1'
+]
 
 
-# APPLICATIONS
+# ==============================
+# 📦 APPLICATIONS
+# ==============================
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -23,17 +33,25 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Cloudinary
     'cloudinary',
     'cloudinary_storage',
 
-    # ✅ YOUR APP (IMPORTANT)
+    # Your app
     'fashion_app',
 ]
 
 
-# MIDDLEWARE
+# ==============================
+# ⚙️ MIDDLEWARE
+# ==============================
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+
+    # ✅ Static files serving
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -43,18 +61,19 @@ MIDDLEWARE = [
 ]
 
 
-# URL CONFIG
+# ==============================
+# 🌐 URL CONFIG
+# ==============================
 ROOT_URLCONF = 'fashion_project.urls'
 
 
-# TEMPLATES
+# ==============================
+# 🎨 TEMPLATES
+# ==============================
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-
-        # ✅ OPTIONAL (for custom templates later)
-        'DIRS': [BASE_DIR / 'templates'],
-
+        'DIRS': [BASE_DIR / 'templates'],  # Important
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -67,15 +86,19 @@ TEMPLATES = [
 ]
 
 
-# DATABASE
-import dj_database_url
-
+# ==============================
+# 🗄️ DATABASE
+# ==============================
 DATABASES = {
-    'default': dj_database_url.parse('postgresql://kstyle_db_user:wmz3m4brg56DTGA3t6hbzSIcaneTJTOc@dpg-d7cg8u99rddc739n80e0-a/kstyle_db')
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL')
+    )
 }
 
 
-# PASSWORD VALIDATION
+# ==============================
+# 🔑 PASSWORD VALIDATION
+# ==============================
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -92,29 +115,32 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# INTERNATIONALIZATION
+# ==============================
+# 🌍 INTERNATIONALIZATION
+# ==============================
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
 
-# STATIC FILES
-STATIC_URL = 'static/'
+# ==============================
+# 📁 STATIC FILES
+# ==============================
+STATIC_URL = '/static/'
 
-# ✅ OPTIONAL (recommended later)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-
-# DEFAULT PRIMARY KEY
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-
-
-
+# ==============================
+# 📁 MEDIA FILES (Cloudinary)
+# ==============================
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.getenv("CLOUD_NAME"),
     'API_KEY': os.getenv("API_KEY"),
@@ -122,3 +148,9 @@ CLOUDINARY_STORAGE = {
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
+# ==============================
+# 🔢 DEFAULT PK
+# ==============================
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
